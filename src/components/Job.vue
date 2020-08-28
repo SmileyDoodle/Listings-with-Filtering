@@ -1,36 +1,47 @@
 <template>
-  <div class="job-wrap">
-      <div class="logo-wrap">
-          <img src="../assets/images/photosnap.svg" alt="icon">
-      </div>
-      <div>
-          <div class="company-wrap">
-              <p>Photosnap</p>
-              <p>NEW!</p>
-              <p>FEATURED</p>
-          </div>
-          <div class="title-wrap">
-              <h3>Senior Frontend Developer</h3>
-          </div>
-          <div class="description-wrap">
-              <p>1 day ago</p>
-              <p>Full Time</p>
-              <p>USA only</p>
-          </div>
-      </div>
-      <div class="skills-wrap">
-          <p>Frontend</p>
-          <p>Senior</p>
-          <p>HTML</p>
-          <p>CSS</p>
-          <p>Javascreept</p>
+  <div>
+      <div v-for="data in myJson" :key="data.id" class="job-wrap">
+        <div class="logo-wrap">
+            <img :src="require(`../assets/images/${data.logo}`)" alt="icon">
+            <!-- <img :src="getLogo(data.logo)" alt="icon"> -->
+        </div>
+        <div>
+            <div class="company-wrap">
+                <p> {{data.company}} </p>
+                <p>NEW!</p>
+                <p>FEATURED</p>
+            </div>
+            <div class="title-wrap">
+                <h3> {{data.position}} </h3>
+            </div>
+            <div class="description-wrap">
+                <p> {{data.postedAt}} </p>
+                <p> {{data.contract}} </p>
+                <p> {{data.location}} </p>
+            </div>
+        </div>
+        <div class="skills-wrap">
+            <p>Frontend</p>
+            <p>Senior</p>
+            <p>HTML</p>
+            <p>CSS</p>
+            <p>Javascreept</p>
+        </div>
       </div>
   </div>
 </template>
 
 <script>
+import json from '../data.json'
+console.log(json)
+
 export default {
-    name: 'Job'
+    name: 'Job',
+    data() {
+        return{
+            myJson: json,
+        }
+    },
 }
 </script>
 
@@ -40,6 +51,9 @@ export default {
     background-color: #fff;
     width: 1000px;
     margin: 4rem auto;
+}
+.job-wrap:last-child {
+    margin-bottom: 0;
 }
 .logo-wrap {
     display: flex;
@@ -61,6 +75,7 @@ export default {
 }
 .title-wrap h3 {
     margin: 0.5rem 0;
+    text-align: left;
 }
 .description-wrap {
     display: flex;

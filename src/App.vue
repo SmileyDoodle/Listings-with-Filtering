@@ -33,6 +33,7 @@ body {
   color: #2c3e50;
   background-color: hsl(180, 52%, 96%);
   margin: 0;
-  height: 100vh;
+  min-height: 100vh;
+  padding-bottom: 4rem;
 }
 </style>
