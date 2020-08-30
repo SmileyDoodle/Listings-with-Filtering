@@ -1,6 +1,6 @@
 <template>
   <div>
-      <div v-for="data in myJson" :key="data.id" class="job-wrap">
+      <div v-for="data in myJson" :key="data.id" class="job-wrap" :class="{ special: data.featured }">
         <div class="logo-wrap">
             <img :src="require(`../assets/images/${data.logo}`)" alt="icon">
             <!-- <img :src="getLogo(data.logo)" alt="icon"> -->
@@ -8,8 +8,8 @@
         <div>
             <div class="company-wrap">
                 <p> {{data.company}} </p>
-                <p>NEW!</p>
-                <p>FEATURED</p>
+                <p v-if="data.new">NEW!</p>
+                <p v-if="data.featured">FEATURED</p>
             </div>
             <div class="title-wrap">
                 <h3> {{data.position}} </h3>
@@ -21,11 +21,10 @@
             </div>
         </div>
         <div class="skills-wrap">
-            <p>Frontend</p>
-            <p>Senior</p>
-            <p>HTML</p>
-            <p>CSS</p>
-            <p>Javascreept</p>
+            <p> {{data.role}} </p>
+            <p> {{data.level}} </p>
+            <p v-for="language in data.languages" :key="language"> {{language}} </p>
+            <p v-for="tool in data.tools" :key="tool"> {{tool}} </p>
         </div>
       </div>
   </div>
@@ -41,7 +40,7 @@ export default {
         return{
             myJson: json,
         }
-    },
+    }
 }
 </script>
 
@@ -51,9 +50,14 @@ export default {
     background-color: #fff;
     width: 1000px;
     margin: 4rem auto;
+    border-radius: 5px;
 }
 .job-wrap:last-child {
     margin-bottom: 0;
+}
+.special {
+    border-left-style: solid;
+    border-color: hsl(180, 29%, 50%);
 }
 .logo-wrap {
     display: flex;
