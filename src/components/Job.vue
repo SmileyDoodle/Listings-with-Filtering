@@ -1,41 +1,44 @@
 <template>
   <div>
-      <div class="filter-wrap">
+      <!-- Hidden element -->
+      <div class="filter-wrap" v-show="isSeen">
           <div class="btn-wrap">
-            <div v-for="filter in filters" :key="filter">
+            <div v-for="(filter, index) in filters" :key="filter">
                 <p class="btn-top">{{filter}}</p>
-                <button><img src="../assets/images/clear.svg" alt="clear"></button>
+                <button @click="remove(index)"><img src="../assets/images/clear.svg" alt="clear"></button>
             </div>
           </div>
           <button class="btn-clear" @click="clear()">Clear</button>
       </div>
-      <div v-for="data in myJson" :key="data.id" class="job-wrap" :class="{ special: data.featured }">
-        <div class="logo-wrap">
-            <img :src="require(`../assets/images/${data.logo}`)" alt="icon">
-            <!-- <img :src="getLogo(data.logo)" alt="icon"> -->
-        </div>
-        <div>
-            <div class="company-wrap">
-                <p> {{data.company}} </p>
-                <p v-if="data.new">NEW!</p>
-                <p v-if="data.featured">FEATURED</p>
+      <!-- Listing -->
+      <div v-for="data in myJson" :key="data.id" >
+        <div class="job-wrap" :class="{ special: data.featured }" v-if="checkExist(data)">
+            <div class="logo-wrap">
+                <img :src="require(`../assets/images/${data.logo}`)" alt="icon">
             </div>
-            <div class="title-wrap">
-                <h3> {{data.position}} </h3>
+            <div>
+                <div class="company-wrap">
+                    <p> {{data.company}} </p>
+                    <p v-if="data.new">NEW!</p>
+                    <p v-if="data.featured">FEATURED</p>
+                </div>
+                <div class="title-wrap">
+                    <h3> {{data.position}} </h3>
+                </div>
+                <div class="description-wrap">
+                    <p> {{data.postedAt}} </p>
+                    <p>•</p>
+                    <p> {{data.contract}} </p>
+                    <p>•</p>
+                    <p> {{data.location}} </p>
+                </div>
             </div>
-            <div class="description-wrap">
-                <p> {{data.postedAt}} </p>
-                <p>•</p>
-                <p> {{data.contract}} </p>
-                <p>•</p>
-                <p> {{data.location}} </p>
+            <div class="skills-wrap">
+                <button class="btn-filter" @click="onSelect(data.role)" > {{data.role}} </button>
+                <button class="btn-filter" @click="onSelect(data.level)" > {{data.level}} </button>
+                <button v-for="language in data.languages" :key="language" class="btn-filter" @click="onSelect(language)" > {{language}} </button>
+                <button v-for="tool in data.tools" :key="tool" class="btn-filter" @click="onSelect(tool)"> {{tool}} </button>
             </div>
-        </div>
-        <div class="skills-wrap">
-            <button class="btn-filter" @click="onSelect(data.role)" > {{data.role}} </button>
-            <button class="btn-filter" @click="onSelect(data.level)" > {{data.level}} </button>
-            <button v-for="language in data.languages" :key="language" class="btn-filter" @click="onSelect(language)" > {{language}} </button>
-            <button v-for="tool in data.tools" :key="tool" class="btn-filter" @click="onSelect(tool)"> {{tool}} </button>
         </div>
       </div>
   </div>
@@ -51,18 +54,46 @@ export default {
     data() {
         return{
             myJson: json,
-            filters: []
+            filters: [],
+            isSeen: false
         }
     },
     methods: {
         onSelect(filter) {
-            this.filters.push(filter)
-            console.log(this.filters)
+            this.isSeen = true;
+            let item = filter;
+                if (this.filters.includes(item) === false) {
+                    this.filters.push(item);
+                    console.log("item", item);
+                    console.log(this.filters);
+                } else {
+                    console.log("err")
+                }    
+        },
+        remove(index) {
+            this.filters.splice(index, 1);
         },
         clear() {
+            this.isSeen = false;
             this.filters = []
+        },
+        checkExist(data) {
+            const arr = [...data.languages, ...data.tools];
+            arr.push(data.level);
+            arr.push(data.role);
+            var lowerCaseArray = [];
+            for (var i = 0; i < arr.length; i++) {
+                lowerCaseArray.push(arr[i].toLowerCase());
+            }
+
+            let checker = (arr, target) => target.every(v => arr.includes(v.toLowerCase()));
+            if(this.filters.length > 0) {
+                return checker(lowerCaseArray, this.filters);
+            } else {
+                return true;
+            }
         }
-    }
+    },
 }
 </script>
 
