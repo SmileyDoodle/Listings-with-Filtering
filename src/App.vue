@@ -35,6 +35,6 @@ body {
   background-color: hsl(180, 52%, 96%);
   margin: 0;
   min-height: 100vh;
-  padding-bottom: 4rem;
+  padding-bottom: 5rem;
 }
 </style>

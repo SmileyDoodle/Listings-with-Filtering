@@ -1,14 +1,16 @@
 <template>
-  <div>
+  <div class="box">
       <!-- Hidden element -->
-      <div class="filter-wrap" v-show="isSeen">
-          <div class="btn-wrap">
-            <div v-for="(filter, index) in filters" :key="filter">
-                <p class="btn-top">{{filter}}</p>
-                <button @click="remove(index)"><img src="../assets/images/clear.svg" alt="clear"></button>
+      <div class="filter-container">
+        <div class="filter-wrap" v-show="isSeen">
+            <div class="btn-wrap">
+                <div class="btn-box" v-for="(filter, index) in filters" :key="filter">
+                    <p class="btn-top">{{filter}}</p>
+                    <button class="btn-remove" @click="remove(index)"><img src="../assets/images/clear.svg" alt="clear"></button>
+                </div>
             </div>
-          </div>
-          <button class="btn-clear" @click="clear()">Clear</button>
+            <button class="btn-clear" @click="clear()">Clear</button>
+        </div>
       </div>
       <!-- Listing -->
       <div v-for="data in myJson" :key="data.id" >
@@ -16,11 +18,11 @@
             <div class="logo-wrap">
                 <img :src="require(`../assets/images/${data.logo}`)" alt="icon">
             </div>
-            <div>
+            <div class="main-info-wrap">
                 <div class="company-wrap">
                     <p> {{data.company}} </p>
-                    <p v-if="data.new">NEW!</p>
-                    <p v-if="data.featured">FEATURED</p>
+                    <p class="new-wrap" v-if="data.new">NEW!</p>
+                    <p class="featured-wrap" v-if="data.featured">FEATURED</p>
                 </div>
                 <div class="title-wrap">
                     <h3> {{data.position}} </h3>
@@ -72,6 +74,11 @@ export default {
         },
         remove(index) {
             this.filters.splice(index, 1);
+            if (this.filters.length < 1) {
+                this.isSeen = false;
+            } else {
+                this.isSeen = true;
+            }
         },
         clear() {
             this.isSeen = false;
@@ -98,9 +105,13 @@ export default {
 </script>
 
 <style>
+.filter-container {
+    position: relative;
+    top: -38px;
+    min-height: 4.7rem;
+}
 .filter-wrap {
     position: relative;
-    top: -34px;
     margin-left: auto;
     margin-right: auto;
     left: 0;
@@ -113,6 +124,7 @@ export default {
     min-height: 4.5rem;
     margin: 0 auto;
     border-radius: 5px;
+    box-shadow: 0px 10px 14px -7px #cde2e6;
 }
 .filter-wrap p {
     padding: 0;
@@ -121,28 +133,61 @@ export default {
 .btn-wrap {
     display: flex;
 }
+.btn-wrap:first-child {
+    margin-left: 2.5rem;
+}
+.btn-box {
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
+}
 .btn-top {
+    font-size: 0.8rem;
     height: fit-content;
     font-weight: 700;
-    padding: 0.3rem;
-    border-radius: 5px;
+    padding: 0.3rem !important;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
     background-color: hsl(180, 31%, 95%);
     border-color:  hsl(180, 31%, 95%);
     color: hsl(180, 29%, 50%);
-    margin-right: 1rem;
+	cursor:pointer;
+	text-decoration: none;
+    border: 2px solid hsl(180, 31%, 95%);
 }
-.btn-top:first-child {
-    margin-left: 2rem;
+.btn-remove {
+    background-color: hsl(180, 29%, 50%);
+    border-color:  hsl(180, 29%, 50%);
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    cursor: pointer;
+	text-decoration: none;
+    border: 2px solid hsl(180, 29%, 50%);
+}
+.btn-remove:hover {
+    background-color: #000;
+    border: 2px solid #000;
 }
 .btn-clear {
-    margin-right: 1rem;
+    color: #000;
+    background-color: transparent;
+    border: none;
+    font-weight: 700;
+    margin-right: 2.5rem;
+    text-decoration: underline;
+    cursor:pointer;
+}
+.btn-clear:hover {
+    color: hsl(180, 29%, 50%);
 }
 .job-wrap {
     display: flex;
     background-color: #fff;
     width: 1000px;
-    margin: 4rem auto;
+    height: 160px;
+    margin: 1.5rem auto;
     border-radius: 5px;
+    box-shadow: 0px 10px 14px -7px #cde2e6;
 }
 .job-wrap:last-child {
     margin-bottom: 0;
@@ -160,19 +205,38 @@ export default {
 .logo-wrap img {
     height: 5.5rem;
 }
+.main-info-wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+}
 .company-wrap {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
+    align-items: center;
 }
 .company-wrap p {
     font-size: 0.8rem;
     font-weight: 700;
     color: hsl(180, 29%, 50%);
-    margin: 2rem 0 0;
+    margin-right: 1rem;
+}
+.new-wrap {
+    font-size: 0.6rem !important;
+    color: #fff !important;
+    background-color: hsl(180, 29%, 50%);
+    padding: 8px 9px;
+    border-radius: 15px;
+}
+.featured-wrap {
+    font-size: 0.6rem !important;
+    color: #fff !important;
+    background-color: #000;
+    padding: 8px 9px;
+    border-radius: 15px;
 }
 .title-wrap h3 {
-    margin: 0.5rem 0;
+    margin: 0.3rem 0;
     text-align: left;
 }
 .title-wrap h3:hover {
@@ -185,7 +249,7 @@ export default {
 .description-wrap p {
     font-size: 0.8rem;
     color: hsl(180, 8%, 52%);
-    margin: 0 0 2rem;
+    /* margin: 0 0 2rem; */
     padding-right: 0.8rem;
 }
 .skills-wrap {
@@ -194,21 +258,26 @@ export default {
     align-items: center;
     justify-content: flex-end;
 }
-.skills-wrap p {
-    font-size: 0.8rem;
-    margin: 0;
-    padding-right: 0.8rem;
-}
-.skills-wrap p:last-child {
-    padding-right: 2.5rem;
-}
 .btn-filter {
     font-weight: 700;
+	cursor:pointer;
     padding: 0.3rem;
+	text-decoration: none;
     border-radius: 5px;
     background-color: hsl(180, 31%, 95%);
     border-color:  hsl(180, 31%, 95%);
     color: hsl(180, 29%, 50%);
     margin-right: 1rem;
+    border: 2px solid hsl(180, 31%, 95%);
+}
+.btn-filter:last-child {
+    margin-right: 2.5rem;
+}
+.btn-filter:hover {
+    background-color: hsl(180, 29%, 50%);
+    color: #fff;
+}
+button:focus {
+    outline-color: transparent;
 }
 </style>
