@@ -304,7 +304,7 @@ button:focus {
   .btn-wrap {
     display: flex;
     flex-flow: wrap;
-    width: 73%;
+    width: 65%;
   }
   .btn-wrap:first-child {
     margin-left: 1.5rem;
