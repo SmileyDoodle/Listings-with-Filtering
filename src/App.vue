@@ -2,12 +2,10 @@
   <div id="app">
     <Header></Header>
     <List></List>
-    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
   </div>
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld.vue'
 import Header from './components/Header.vue'
 import List from './components/List.vue'
 
@@ -16,7 +14,6 @@ export default {
   components: {
     Header,
     List,
-    // HelloWorld
   }
 }
 </script>

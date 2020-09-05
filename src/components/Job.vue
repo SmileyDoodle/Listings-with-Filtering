@@ -48,8 +48,6 @@
 
 <script>
 import json from '../data.json'
-// import { filter } from 'vue/types/umd'
-console.log(json)
 
 export default {
     name: 'Job',
@@ -66,8 +64,6 @@ export default {
             let item = filter;
                 if (this.filters.includes(item) === false) {
                     this.filters.push(item);
-                    console.log("item", item);
-                    console.log(this.filters);
                 } else {
                     console.log("err")
                 }    
@@ -127,7 +123,6 @@ export default {
     box-shadow: 0px 10px 14px -7px #cde2e6;
 }
 .filter-wrap p {
-    padding: 0;
     margin: 0;
 }
 .btn-wrap {
@@ -140,12 +135,15 @@ export default {
     display: flex;
     align-items: center;
     margin-right: 1rem;
+    height: 25px;
 }
 .btn-top {
+    display: flex;
+    height: 100%;
     font-size: 0.8rem;
-    height: fit-content;
     font-weight: 700;
-    padding: 0.3rem !important;
+    align-items: center;
+    padding: 0 0.3rem;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
     background-color: hsl(180, 31%, 95%);
@@ -153,20 +151,24 @@ export default {
     color: hsl(180, 29%, 50%);
 	cursor:pointer;
 	text-decoration: none;
-    border: 2px solid hsl(180, 31%, 95%);
 }
 .btn-remove {
+    display: flex;
+    height: 100%;
     background-color: hsl(180, 29%, 50%);
     border-color:  hsl(180, 29%, 50%);
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
     cursor: pointer;
+    align-items: center;
 	text-decoration: none;
-    border: 2px solid hsl(180, 29%, 50%);
+    border: none;
+    transition: all .5s ease;
+    padding: 0.1rem;
 }
 .btn-remove:hover {
     background-color: #000;
-    border: 2px solid #000;
+    transition: all .5s ease;
 }
 .btn-clear {
     color: #000;
@@ -176,9 +178,11 @@ export default {
     margin-right: 2.5rem;
     text-decoration: underline;
     cursor:pointer;
+    transition: all .5s ease;
 }
 .btn-clear:hover {
     color: hsl(180, 29%, 50%);
+    transition: all .5s ease;
 }
 .job-wrap {
     display: flex;
@@ -194,6 +198,7 @@ export default {
 }
 .special {
     border-left-style: solid;
+    border-left-width: 4px;
     border-color: hsl(180, 29%, 50%);
 }
 .logo-wrap {
@@ -238,10 +243,12 @@ export default {
 .title-wrap h3 {
     margin: 0.3rem 0;
     text-align: left;
+    transition: all .5s ease;
 }
 .title-wrap h3:hover {
     cursor: pointer;
     color: hsl(180, 29%, 50%);
+    transition: all .5s ease;
 }
 .description-wrap {
     display: flex;
@@ -249,7 +256,6 @@ export default {
 .description-wrap p {
     font-size: 0.8rem;
     color: hsl(180, 8%, 52%);
-    /* margin: 0 0 2rem; */
     padding-right: 0.8rem;
 }
 .skills-wrap {
@@ -269,6 +275,7 @@ export default {
     color: hsl(180, 29%, 50%);
     margin-right: 1rem;
     border: 2px solid hsl(180, 31%, 95%);
+    transition: all .5s ease;
 }
 .btn-filter:last-child {
     margin-right: 2.5rem;
@@ -276,8 +283,74 @@ export default {
 .btn-filter:hover {
     background-color: hsl(180, 29%, 50%);
     color: #fff;
+    transition: all .5s ease;
 }
 button:focus {
     outline-color: transparent;
+}
+
+
+@media screen and (max-width: 600px) {
+  .filter-container {
+    position: relative;
+    top: -38px;
+    min-height: 6.2rem;
+  }
+  .filter-wrap {
+    width: 85%;
+    min-height: 6rem;
+    flex-flow: wrap; 
+  }
+  .btn-wrap {
+    display: flex;
+    flex-flow: wrap;
+    width: 73%;
+  }
+  .btn-wrap:first-child {
+    margin-left: 1.5rem;
+  }
+  .btn-box {
+   margin: 0.3rem 1rem 0.3rem 0;   
+   height: 30px;
+  }
+  .btn-clear {
+    margin-right: 1.5rem;
+  }
+  .job-wrap {
+    flex-direction: column;
+    width: 85%;
+    height: 280px;
+    border-radius: 5px;
+    box-shadow: 0px 10px 14px -7px #cde2e6;
+    margin-bottom: 3rem !important;
+  }
+  .logo-wrap {
+    position: relative;
+    top: -24px;
+    justify-content: left;
+    padding: 0 1.5rem;
+  }
+  .logo-wrap img {
+    height: 3rem;
+  }
+  .company-wrap {
+    padding-left: 1.5rem;
+  }
+  .company-wrap p {
+    margin-top: 0;
+  }
+  .title-wrap {
+    padding-left: 1.5rem; 
+  }
+  .description-wrap {
+    margin: 0 1.5rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1.3px solid hsl(180, 5%, 75%);
+  }
+  .skills-wrap {
+    padding: 1rem 0 1rem 1.5rem;
+    flex-flow: row wrap; 
+    justify-content: left;
+  }
 }
 </style>
